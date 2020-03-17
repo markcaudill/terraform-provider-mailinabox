@@ -23,7 +23,7 @@ Environment variable example:
 ```shell
 export MAILINABOX_URL="https://mail.example.com"
 export MAILINABOX_USERNAME="admin@example.com"
-export MAININABOX_PASSWORD="abc123fireme"
+export MAILINABOX_PASSWORD="abc123fireme"
 ```
 
 Usage
