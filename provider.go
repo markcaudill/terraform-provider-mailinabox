@@ -23,7 +23,7 @@ func Provider() *schema.Provider {
 			"password": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
-				DefaultFunc: schema.EnvDefaultFunc("MAININABOX_PASSWORD", nil),
+				DefaultFunc: schema.EnvDefaultFunc("MAILINABOX_PASSWORD", nil),
 				Description: "The password of an admin user.",
 			},
 		},

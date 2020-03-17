@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/markcaudill/gomailinabox"
-	"strings"
 )
 
 func resourceMailinaboxDNSRecord() *schema.Resource {
@@ -32,47 +31,84 @@ func resourceMailinaboxDNSRecord() *schema.Resource {
 
 func resourceMailinaboxDNSRecordCreate(d *schema.ResourceData, m interface{}) error {
 	client := gomailinabox.NewClient(m.(*gomailinabox.Config))
-	newRecord := &gomailinabox.Record{Domain: d.Get("domain").(string), Type: d.Get("type").(string), Value: d.Get("value").(string)}
+	// Create a new gomailinabox.Record
+	newRecord := &gomailinabox.Record{
+		Domain: d.Get("domain").(string),
+		Type:   d.Get("type").(string),
+		Value:  d.Get("value").(string),
+	}
+	// Create the record
 	recs, err := client.CreateRecord(newRecord)
 	if err != nil {
 		return err
 	}
-	d.SetId(recs[0].Domain + "_" + recs[0].Type + "_" + recs[0].Value)
+	// Generate an id
+	id, err := generateDNSRecordId(&recs[0])
+	if err != nil {
+		return err
+	}
+	d.SetId(id)
 	return resourceMailinaboxDNSRecordRead(d, m)
 }
 
 func resourceMailinaboxDNSRecordRead(d *schema.ResourceData, m interface{}) error {
 	client := gomailinabox.NewClient(m.(*gomailinabox.Config))
-	i := strings.Split(d.Id(), "_")
-	recs, err := client.GetRecord(&gomailinabox.Record{Domain: i[0], Type: i[1], Value: i[2]})
+	// Parse the id into a gomailinabox.Record
+	queryRecord, err := parseDNSRecordId(d.Id())
 	if err != nil {
 		d.SetId("")
-	} else {
-		d.Set("domain", recs[0].Domain)
-		d.Set("type", recs[0].Type)
-		d.Set("value", recs[0].Value)
+		return err
 	}
+	// Fetch any records that match queryRecord
+	recs, err := client.GetRecord(queryRecord)
+	if err != nil {
+		d.SetId("")
+		return err
+	}
+	// Update the values of this resource
+	d.Set("domain", recs[0].Domain)
+	d.Set("type", recs[0].Type)
+	d.Set("value", recs[0].Value)
 	return nil
 }
 
 func resourceMailinaboxDNSRecordUpdate(d *schema.ResourceData, m interface{}) error {
 	client := gomailinabox.NewClient(m.(*gomailinabox.Config))
-	i := strings.Split(d.Id(), "_")
-	recs, err := client.UpdateRecord(&gomailinabox.Record{Domain: i[0], Type: i[1], Value: d.Get("value").(string)})
+	// Parse this id into a gomailinabox.Record
+	record, err := parseDNSRecordId(d.Id())
 	if err != nil {
 		d.SetId("")
-	} else {
-		d.SetId(recs[0].Domain + "_" + recs[0].Type + "_" + recs[0].Value)
+		return err
 	}
+	// Update the record value
+	record.Value = d.Get("value").(string)
+	recs, err := client.UpdateRecord(record)
+	if err != nil {
+		d.SetId("")
+		return err
+	}
+	// Generate the new id
+	id, err := generateDNSRecordId(&recs[0])
+	if err != nil {
+		return err
+	}
+	d.SetId(id)
 	return resourceMailinaboxDNSRecordRead(d, m)
 }
 
 func resourceMailinaboxDNSRecordDelete(d *schema.ResourceData, m interface{}) error {
 	client := gomailinabox.NewClient(m.(*gomailinabox.Config))
-	i := strings.Split(d.Id(), "_")
-	_, err := client.DeleteRecord(&gomailinabox.Record{Domain: i[0], Type: i[1], Value: i[2]})
-	if err == nil {
+	// Parse this id into a gomailinabox.Record
+	record, err := parseDNSRecordId(d.Id())
+	if err != nil {
 		d.SetId("")
+		return err
+	}
+	// Delete the record
+	_, err = client.DeleteRecord(record)
+	if err != nil {
+		d.SetId("")
+		return err
 	}
 	return nil
 }
