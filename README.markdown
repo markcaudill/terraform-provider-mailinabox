@@ -32,9 +32,20 @@ Usage
 ```hcl
 provider "mailinabox" {}
 
-resource "mailinabox_dnsrecord" "test" {
+data "mailinabox_dnsrecord" "bare_a_record" {
+  domain = "example.com"
+  type = "A"
+}
+
+resource "mailinabox_dnsrecord" "testdomain_a_dnsrecord" {
   domain = "testdomain.example.com"
-  type   = "A"
-  value  = "127.0.0.1"
+  type   = data.mailinabox_dnsrecord.bare_a_record.type
+  value  = data.mailinabox_dnsrecord.bare_a_record.value
+}
+
+resource "mailinabox_dnsrecord" "testdomain_aaaa_dnsrecord" {
+  domain = "testdomain.example.com"
+  type = "AAAA"
+  value = "2607:ff18:80::1308"
 }
 ```
