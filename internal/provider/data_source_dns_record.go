@@ -1,13 +1,16 @@
-package main
+package provider
 
 import (
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/markcaudill/gomailinabox"
 )
 
 func datasourceMailinaboxDNSRecord() *schema.Resource {
 	return &schema.Resource{
+		Description: "A DNS record on a Mail-in-a-box server",
+
 		Read: datasourceMailinaboxDNSRecordRead,
 
 		Schema: map[string]*schema.Schema{

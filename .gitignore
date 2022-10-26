@@ -1,6 +1,5 @@
-
-# Created by https://www.gitignore.io/api/vim,terraform,go
-# Edit at https://www.gitignore.io/?templates=vim,terraform,go
+# Created by https://www.gitignore.io/api/terraform,go
+# Edit at https://www.gitignore.io/?templates=terraform,go
 
 ### Go ###
 # Binaries for programs and plugins
@@ -53,29 +52,4 @@ override.tf.json
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
 # example: *tfplan*
 
-### Vim ###
-# Swap
-[._]*.s[a-v][a-z]
-[._]*.sw[a-p]
-[._]s[a-rt-v][a-z]
-[._]ss[a-gi-z]
-[._]sw[a-p]
-
-# Session
-Session.vim
-Sessionx.vim
-
-# Temporary
-.netrwhist
-*~
-
-# Auto-generated tag files
-tags
-
-# Persistent undo
-[._]*.un~
-
-# Coc configuration directory
-.vim
-
-# End of https://www.gitignore.io/api/vim,terraform,go
+# End of https://www.gitignore.io/api/terraform,go

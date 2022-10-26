@@ -1,8 +1,9 @@
-package main
+package provider
 
 import (
-	"github.com/markcaudill/gomailinabox"
 	"testing"
+
+	"github.com/markcaudill/gomailinabox"
 )
 
 func TestParseDNSRecordId(t *testing.T) {

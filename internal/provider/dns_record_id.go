@@ -1,9 +1,10 @@
-package main
+package provider
 
 import (
 	"fmt"
-	"github.com/markcaudill/gomailinabox"
 	"strings"
+
+	"github.com/markcaudill/gomailinabox"
 )
 
 func parseDNSRecordId(s string) (*gomailinabox.Record, error) {

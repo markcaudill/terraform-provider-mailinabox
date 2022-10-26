@@ -1,12 +1,14 @@
-package main
+package provider
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/markcaudill/gomailinabox"
 )
 
 func resourceMailinaboxDNSRecord() *schema.Resource {
 	return &schema.Resource{
+		Description: "A DNS record on a Mail-in-a-box server",
+
 		Create: resourceMailinaboxDNSRecordCreate,
 		Read:   resourceMailinaboxDNSRecordRead,
 		Update: resourceMailinaboxDNSRecordUpdate,
