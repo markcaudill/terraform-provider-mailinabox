@@ -61,7 +61,7 @@ jobs:
       matrix:
         # list whatever Terraform versions here you would like to support
         terraform:
-          - '1.2.*'
+          - '1.*'
     steps:
 
     - name: Check out code into the Go module directory
@@ -94,4 +94,4 @@ jobs:
         # SOME_VAR: ${{ secrets.SOME_VAR }}
 
       run: |
-        go test -v -cover .
+        go test -v -cover ./...
