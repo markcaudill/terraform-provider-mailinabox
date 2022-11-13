@@ -1,5 +1,13 @@
 # Terraform Mail-in-a-Box Provider
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/markcaudill/terraform-provider-mailinabox)
+![GitHub](https://img.shields.io/github/license/markcaudill/terraform-provider-mailinabox)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/markcaudill/terraform-provider-mailinabox)
+![Codecov](https://img.shields.io/codecov/c/github/markcaudill/terraform-provider-mailinabox)
+
+This is an unofficial Mail-in-a-Box Terraform provider. Currently it only
+supports DNS record resources.
+
 ## Using the provider
 
 ```terraform
@@ -16,6 +24,23 @@ provider "mailinabox" {
   url      = "https://mail.example.com"
   username = "admin@example.com"
   password = "abc123fireme"
+}
+
+data "mailinabox_dnsrecord" "bare_a_record" {
+  domain = "example.com"
+  type = "A"
+}
+
+resource "mailinabox_dnsrecord" "testdomain_a_dnsrecord" {
+  domain = "testdomain.example.com"
+  type   = data.mailinabox_dnsrecord.bare_a_record.type
+  value  = data.mailinabox_dnsrecord.bare_a_record.value
+}
+
+resource "mailinabox_dnsrecord" "testdomain_aaaa_dnsrecord" {
+  domain = "testdomain.example.com"
+  type = "AAAA"
+  value = "2607:ff18:80::1308"
 }
 ```
 
