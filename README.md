@@ -3,7 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/markcaudill/terraform-provider-mailinabox)
 ![GitHub](https://img.shields.io/github/license/markcaudill/terraform-provider-mailinabox)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/markcaudill/terraform-provider-mailinabox)
-![Codecov](https://img.shields.io/codecov/c/github/markcaudill/terraform-provider-mailinabox)
+![Codecov](https://img.shields.io/codecov/c/github/markcaudill/terraform-provider-mailinabox?token=6QH1TVF9Z9)
 
 This is an unofficial Mail-in-a-Box Terraform provider. Currently it only
 supports DNS record resources.
